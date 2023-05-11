@@ -50,7 +50,7 @@ def main(database, test, method, branches, level):
     print("Building the vocab tree...")
     
     db = buildVocabTree(imageDescriptors, images, num_imgs, num_descs, k, l)
-    
+
     test = test_path + '/img01.jpg'
     test = cv.imread(test)
     test_kp,test_des = get_test(test_path)
@@ -66,6 +66,21 @@ def main(database, test, method, branches, level):
     #print(f"Time taken to get homography for vocabulary tree of branch_number {k} and level {l} and number of leaf nodes {len(db.leafs)}: {end - start}")
 
     print(f'Best img {best_img}, homography {cv_hom} and inliers: {mask.ravel().tolist().count(1)}')
+
+    h,w = cv.imread(best_img, cv.IMREAD_GRAYSCALE).shape
+    
+    # saving all points in pts
+    pts = np.float32([[0, 0], [0, h], [w, h], [w, 0]]).reshape(-1, 1, 2)
+    
+    # applying perspective algorithm
+   # dst = cv.perspectiveTransform(pts, cv_hom)
+
+    #homography = cv.polylines(test, [np.int32(dst)], True, (255, 0, 0), 3)
+  
+    # showing the final output 
+    # with homography
+    #cv.imshow("Homography", homography)
+    #cv.waitKey()
 
     plt.imshow(test)
     for x in keypoints_matched:
