@@ -1,4 +1,7 @@
-# Visual Semantic Search 
+# Image Query Database 
+
+The following is command line search tool to perform image-to-image search. This means that it
+is looking for similar images to the query image in the database. 
 
 ##Prerequisites:
 
@@ -20,10 +23,3 @@ Below are the options:
 * ``` branches, -k ```: The branch factor for vocabulary tree, the default is 10
 * ``` levels, -l ```: The depth for the vocabulary tree, the default is 10
 
-
-Tree Implementation 
-
-The following is a scalable vocabulary tree implementation for book covers.
-
-There are two main components: the data folder which stores the images for both the database used by the tree (in the books folder) and the query image in
-the test folder.
