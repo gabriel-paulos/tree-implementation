@@ -22,7 +22,6 @@ class VocabTree():
 
         self.branches = k #number of clusters
         self.l = depth #max depth
-        #self.tree = {} #tree --> {KNode: []}
         self.data = [] #data --> [[descriptor, image_path]]
         self.images = [] #image --> [img_path]
         self.num_imgs = None
@@ -48,10 +47,7 @@ class VocabTree():
         Build the kmeans hierarchy tree recursively as detailed in the nister paper
         '''
 
-        #print(f"Sorting the kmeans at current depth {level} and in cluster {k}")
-
         if root == None:
-            #print("R is none")
             root = self.KNode(level,None,0,self.visual_word_id_count)
             self.root = root
             self.nodes.append(root)
@@ -64,11 +60,7 @@ class VocabTree():
             root.leaf_id = len(self.leafs)+1
             self.leafs.append(root)
             root.descriptors = np.copy(data)
-
-            #print(f"Reached leaf node {root.leaf_id}")
             return 
-
-        #print("Initializing Kmeans")
 
         descriptors = [pair[0] for pair in data]
         
@@ -86,7 +78,6 @@ class VocabTree():
         self.visual_word_id_count += self.branches+1
 
         for i in range(self.branches):
-            #print(f'cluster {i} has {len(data[kmeans_labels == i])}')
             self.kmeans_hierarchy(clusters[i],i,level+1, data[kmeans_labels == i])
 
     def histogram(self):     
@@ -94,6 +85,7 @@ class VocabTree():
         '''
         Dictionary of images with all of the nodes it passes through
         '''
+        
         if self.histo == {}:
             self.histo = {i:[] for i in self.images}
 
@@ -114,21 +106,20 @@ class VocabTree():
         for k,v in self.histo.items():
             counter = Counter(v)
   
-            #look at slide 14 
             for c,s in counter.items():
                 self.BoW[k][c] = s
 
     def build_tf_idf(self):
 
+        '''
+        Build a inverted index for each image
+        '''
+
         self.tf_idf = {r.leaf_id:[] for r in self.leafs}
         
-        #print("Initialize tf_idf of tree")
-
         for r in self.leafs:
             self.tf_idf[r.leaf_id] = Counter(s[1] for s in r.descriptors)
         
-        #print("Done tf_idf of tree")
-
     def word_occurrence(self):
 
         '''
