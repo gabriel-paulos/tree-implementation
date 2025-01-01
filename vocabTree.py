@@ -241,13 +241,9 @@ class VocabTree():
             nodes_passed[leaf.leaf_id] +=1
 
         query_vector = self.tf_idf_paper(nodes_passed)  
-
-        #normalized_histo_lecture = self.tf_idf_lecture(histogram)
-        
         candidate_images = self.getDBImages(nodes_passed)
         
         scores = self.compute_similarity(query_vector,candidate_images)
-        #print(np.array(candidate_images)[np.argpartition(scores,10)[:10]])
         best_matches = np.array(candidate_images)[np.argsort(scores)[:10]]     
 
         return best_matches
