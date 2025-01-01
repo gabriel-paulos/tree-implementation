@@ -10,9 +10,6 @@ class FeatureDescriptor():
 
   def extract_descriptors(self, img_path):
 
-    #according to paper they used both MSER and SIFT keypoints I will use only one,
-    #but use SIFT descriptors for each
-
     img = cv.imread(img_path)
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
