@@ -32,7 +32,6 @@ def match_descriptors(test_kp,test_des,db_img,thres=0.8,method='SIFT'):
   db_img = cv.imread(db_img)  
   db_img = cv.cvtColor(db_img, cv.COLOR_BGR2GRAY)
 
-  #sift
   if method == 'SIFT':
     sift1 = cv.SIFT_create()
     sift2 = cv.SIFT_create()
@@ -51,7 +50,6 @@ def match_descriptors(test_kp,test_des,db_img,thres=0.8,method='SIFT'):
 
   print(np.shape(test_des)[0]) 
   for x in range(np.shape(test_des)[0]):
-   # print(x)
     dst = np.linalg.norm(test_des[x] - descriptors_2, ord=2, axis=1)
     a = np.argpartition(dst,1)
     closed = dst[a]
@@ -61,22 +59,6 @@ def match_descriptors(test_kp,test_des,db_img,thres=0.8,method='SIFT'):
       closest.append(closed[0])
       matched.append([a[0],x])
 
-  '''
-  implot = plt.imshow(test)
-
-  for x in matched:
-    plt.plot(test_kp[x[1]].pt[0],test_kp[x[1]].pt[1],'bo')
-
-  plt.show()
-
-  #img = io.imread(image2)
-  implot = plt.imshow(db_img)
-  
-  for x in matched:
-    plt.plot(keypoints_2[x[0]].pt[0],keypoints_2[x[0]].pt[1],'bo')
-  
-  plt.show()
-'''
   keypoints_matched =[]
   for x in matched:
     keypoints_matched.append([test_kp[x[1]],keypoints_2[x[0]]])
@@ -85,31 +67,9 @@ def match_descriptors(test_kp,test_des,db_img,thres=0.8,method='SIFT'):
 
 def RANSAC(matched):
   '''
-  best_hom = np.zeros((3,3))
-  max_inliers = 0
-  
-  for x in range(iterations):
-    lis = random.choices(matched,k=4)
-    match1 = np.float32([column[1].pt for column in lis])
-    match2 = np.float32([col[0].pt for col in lis])
-    his, mask = cv.findHomography(np.asarray(match1),np.asarray(match2),0,30)
-  
-    if his is None:
-      return None, None, 0
-    
-    inlier=0
-    for trans in matched:
-      p = np.asarray([trans[1].pt[0],trans[1].pt[1],1])
-      p_prime = his@p
-      p_real = np.asarray([trans[0].pt[0],trans[0].pt[1],1])
-
-      if np.linalg.norm(p_prime-p_real,ord=2) < 30:
-        inlier+=1
-
-    if inlier > max_inliers:
-      best_hom = his
-      max_inliers = inlier
-'''
+  RANSAC is used to iteratively discover the homography that best fits the two
+  images
+  '''
   match1 = np.asarray([column[1].pt for column in matched])
   match2 = np.asarray([col[0].pt for col in matched])
 
