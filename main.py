@@ -59,28 +59,11 @@ def main(database, test, method, branches, level):
     
     print(f"The best matches are given by: {best_matches}")
 
-    #start = time.time()
     best_img, cv_hom, mask, keypoints_matched = getHomography(test_kp,test_des,best_matches, method= method)
-    #end = time.time()
-
-    #print(f"Time taken to get homography for vocabulary tree of branch_number {k} and level {l} and number of leaf nodes {len(db.leafs)}: {end - start}")
-
     print(f'Best img {best_img}, homography {cv_hom} and inliers: {mask.ravel().tolist().count(1)}')
 
     h,w = cv.imread(best_img, cv.IMREAD_GRAYSCALE).shape
-    
-    # saving all points in pts
     pts = np.float32([[0, 0], [0, h], [w, h], [w, 0]]).reshape(-1, 1, 2)
-    
-    # applying perspective algorithm
-   # dst = cv.perspectiveTransform(pts, cv_hom)
-
-    #homography = cv.polylines(test, [np.int32(dst)], True, (255, 0, 0), 3)
-  
-    # showing the final output 
-    # with homography
-    #cv.imshow("Homography", homography)
-    #cv.waitKey()
 
     plt.imshow(test)
     for x in keypoints_matched:
@@ -117,8 +100,6 @@ def buildVocabTree(desc,img,num_imgs,num_descs, k, l):
 
     print('Building BoW for each images...')
     db.BagofWords()
-
-    #print(f"db.leafs {db.BoW}")
 
     print('Building tf-idf for each leaf node...')
     db.build_tf_idf()
