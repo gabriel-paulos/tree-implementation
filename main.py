@@ -43,8 +43,6 @@ def main(database, test, method, branches, level):
 
     imageDescriptors, images, num_imgs, num_descs = getInput.imageDescriptors(cover_path)
 
-    #print(f"Time taken to preprocess database images: {(end - start)} for {num_imgs} images that correspond to {num_descs} descriptors")
-
     print('Loading the images from {}, use {} for features'.format(cover_path, method))
     
     print("Building the vocab tree...")
