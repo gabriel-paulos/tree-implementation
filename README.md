@@ -1,4 +1,17 @@
-# tree-implementation
+# Visual Semantic Search 
+
+##Prerequisites:
+
+Install the dependencies of the project by running:
+
+```
+python requirements
+```
+
+##Usage:
+
+Use an library of images and run the vocabulary tree python file. 
+
 Tree Implementation 
 
 The following is a scalable vocabulary tree implementation for book covers.
