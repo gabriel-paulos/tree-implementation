@@ -3,7 +3,7 @@
 The following is command line search tool to perform image-to-image search. This means that it
 is looking for similar images to the query image in the database. 
 
-##Prerequisites:
+## Prerequisites:
 
 Install the dependencies of the project by running:
 
@@ -11,7 +11,7 @@ Install the dependencies of the project by running:
 python requirements
 ```
 
-##Usage:
+## Usage:
 
 Use an library of images and run the vocabulary tree using the command line.
 
